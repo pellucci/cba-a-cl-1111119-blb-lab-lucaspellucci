@@ -1,0 +1,7 @@
+---
+- hosts: cba-a-cl-1111119-blb-lab-lucaspellucci
+  connection: local
+  gather_facts: no
+
+  roles:
+    - { role: ansible-aws-build-tenant, ansible_role_state: present }

@@ -1,0 +1,23 @@
+---
+- hosts: cba-a-cl-1111119-blb-lab-lucaspellucci
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Assume build roles
+      import_role:
+        name: ansible-aws-assume-role
+
+    - name: Run Tenant's Custom Repo
+      block:
+        - name: Run Workspace's Custom Repo role
+          import_role:
+            name: cba-a-is-onecloud_custom
+          vars:
+            ansible_role_state: present
+      always:
+        - name: Remove bucket used for uploading
+          import_role:
+            name: ansible-aws-uploader
+          vars:
+            ansible_role_state: absent

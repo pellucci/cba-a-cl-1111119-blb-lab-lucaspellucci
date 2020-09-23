@@ -1,0 +1,2 @@
+- src: git+https://vcs.cnsga.aws.prod.au.internal.cba/CBA/ansible-aws-build-tenant.git
+  version: develop

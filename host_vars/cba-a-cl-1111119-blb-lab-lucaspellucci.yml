@@ -1,0 +1,136 @@
+---
+# Common variables: https://vcs.cnsga.aws.prod.au.internal.cba/CBA/ansible-workspace-config/tree/develop/inventory/group_vars
+# The Account onboarding solution uses square brackets as template delimeters, that is to keep some tags with curly brackets that will be further used in the pipeline.
+# Reference : https://confluence.prod.cba/display/CTO/Host+Variables
+# me
+ 
+
+# Workspace details
+workspace_account_id: 942836357795
+workspace_name: cba-a-cl-1111119-blb-lab-lucaspellucci
+workspace_alias: cba-a-cl-1111119-blb-lab-lucaspellucci
+workspace_region: ap-southeast-2
+workspace_release_channel: ga
+workspace_service_tier: clab
+workspace_ci_number: CM0944255
+workspace_email: rollucas+accpool-cn-0000@amazon.com
+business_platform: blb
+business_service: lucaspellucci
+customer_specific_delineation: test
+ 
+# Stack Details
+cf_stack_name_prefix: cns-{{ workspace_name | regex_replace('_') }}
+ 
+# Account Ids
+build_account_id: 270239639013 # ga/prod/tools
+authentication_account_id: 288744431945 # canary/nonp/users
+org_account_id: 606929559445 # canary/org
+audit_account_id: 279088480787 # ga/prod/audit
+mgmt_account_id: 123456789012 # Depends on what Canary mgmt your will link this account to
+ 
+
+# Iam Roles
+workspace_build_role_arn: 'arn:aws:iam::{{ workspace_account_id }}:role/cns-PlatformBuildRole'
+ 
+# CNS AD Group Creation
+native_ad_stack_name: 'cns-canary-nonp-is-oc-mgmt-AD'
+native_ad_role_arn: 'arn:aws:iam::099104685013:role/cns-PlatformBuildRole'
+ 
+# Curator Configuration
+curator_account_id: '{{ mgmt_account_id }}'
+curator_audit_workspace_alias: '{{ workspace_name }}'
+curator_management_source_bucket: '{{ management_cf_prefix }}-curator'
+curator_whitelist_iam_policy: arn:aws:iam::288744431945:policy/cns-canary-nonp-is-oc-mgmt-GROUPS-EnforceCBAProxyPolicy-R0XV2TSYSN10
+curator_whitelist_iam_policy_version: v2
+curator_audit_bucket_name: "{{ cf_stack_name_prefix }}-curator-audit"
+ 
+# PatchManager scope
+management_cf_prefix: 'cns-canary-nonp-is-oc-mgmt'
+ 
+# Network Configuration
+has_network: False
+has_3_az: 'true'
+has_2_ip_range: 'false'
+ 
+# Nat Gateway configuration
+has_nat_gateway: false
+nat_gateway_each_subnet: false
+ 
+# ansible-aws-network
+# VPC Definitions
+cidr_block:
+    - 192.168.148.0/24
+    - 192.168.149.0/24
+    - 192.168.150.0/23
+    - 192.168.152.0/23
+    - 192.168.153.0/24
+    - 192.168.153.0/24
+ 
+# Ops-Automator for automated EBS & RDS snapshots backup
+enble_ops_automator: true
+ 
+#Externally-Controlled, CBA-Facing
+eccf_cidr_a1: 192.168.148.0/26
+eccf_cidr_a2: 0.0.0.0/0
+eccf_cidr_b1: 192.168.148.64/26
+eccf_cidr_b2: 0.0.0.0/0
+eccf_cidr_c1: 192.168.148.128/26
+eccf_cidr_c2: 0.0.0.0/0
+ 
+# Externally-Controlled, Internet-Facing
+ecif_cidr_a1: 192.168.148.192/26
+ecif_cidr_a2: 0.0.0.0/0
+ecif_cidr_b1: 192.168.149.0/26
+ecif_cidr_b2: 0.0.0.0/0
+ecif_cidr_c1: 192.168.149.64/26
+ecif_cidr_c2: 0.0.0.0/0
+ 
+# Internal Controlled
+ic_cidr_a1: 192.168.149.128/25
+ic_cidr_a2: 0.0.0.0/0
+ic_cidr_b1: 192.168.150.0/25
+ic_cidr_b2: 0.0.0.0/0
+ic_cidr_c1: 192.168.150.128/25
+ic_cidr_c2: 0.0.0.0/0
+ 
+# Restricted
+res_cidr_a1: 192.168.151.0/25
+res_cidr_a2: 0.0.0.0/0
+res_cidr_b1: 192.168.151.128/25
+res_cidr_b2: 0.0.0.0/0
+res_cidr_c1: 192.168.152.0/25
+res_cidr_c2: 0.0.0.0/0
+ 
+
+# Secured
+sec_cidr_a1: 192.168.152.128/26
+sec_cidr_a2: 0.0.0.0/0
+sec_cidr_b1: 192.168.152.192/26
+sec_cidr_b2: 0.0.0.0/0
+sec_cidr_c1: 192.168.153.0/26
+sec_cidr_c2: 0.0.0.0/0
+ 
+# Management Zone
+mgmt_cidr_a1: 192.168.153.64/26
+mgmt_cidr_a2: 0.0.0.0/0
+mgmt_cidr_b1: 192.168.153.128/26
+mgmt_cidr_b2: 0.0.0.0/0
+mgmt_cidr_c1: 192.168.153.192/26
+mgmt_cidr_c2: 0.0.0.0/0
+mgmt_cidr: 192.168.153.0/24
+ 
+# Tranist Gateway
+tgw_cidr_a1: 
+tgw_cidr_b1: 
+tgw_cidr_c1: 
+ 
+# Route 53 Zone Name - ansible-aws-route53
+zone_name: 
+ 
+# CBA AWS Superblock
+# This should cover both tenant and mgmt
+cba_aws_cidr_list:
+  - 10.211.192.0/18
+  - 10.3.0.0/16
+  - 10.8.0.0/16
+  - 10.10.0.0/16
